@@ -3,5 +3,9 @@
 @section('title', 'Profile')
 
 @section('main')
-    <p>Successfully logged in as {{ $user->username }}.</p>
+    @if (session('success'))
+        <div class="alert alert-success" role="alert">
+            {{ session('success') }}
+        </div>
+    @endif
 @endsection

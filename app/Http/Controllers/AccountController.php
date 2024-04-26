@@ -19,7 +19,9 @@ class AccountController extends Controller
         if (Auth::check()) {
             return redirect()->route('account.profile');
         }
-        return view('account/login');
+        else {
+            return view('account/login');
+        }
     }
 
     public function login(Request $request)
@@ -30,7 +32,9 @@ class AccountController extends Controller
         ]);
 
         if ($loginWasSuccessful) {
-            return redirect()->route('account.profile');
+            return redirect()
+                ->route('account.profile')
+                ->with('success', "Succesfully logged in account as '{$request->input('username')}'.");
         }
         else {
             return redirect()->route('login')->with('error', 'Invalid credentials.');

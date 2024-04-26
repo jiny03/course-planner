@@ -15,8 +15,8 @@ Route::post('/register', [RegistrationController::class, 'register'])->name('reg
 Route::get('/login', [AccountController::class, 'loginForm'])->name('login');
 Route::post('/login', [AccountController::class, 'login'])->name('account.login');
 
-// use auth middleware for login and logout functions
 Route::middleware(['auth'])->group(function () {
     Route::post('/logout', [AccountController::class, 'logout'])->name('account.logout');
     Route::get('/profile', [ProfileController::class, 'profile'])->name('account.profile');
 });
+
