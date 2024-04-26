@@ -1,4 +1,4 @@
-@extends('registration/layout')
+@extends('layouts/layout')
 
 @section('title', 'Register')
 
@@ -26,7 +26,7 @@
             </div>
         @endif
     </div>
-    
+
     <div class="mb-3">
         <label for="email" class="form-label">Email</label>
         <input type="email" class="form-control @if($errors->has('email')) is-invalid @endif" id="email" name="email" value="{{ old('email') }}">

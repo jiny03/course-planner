@@ -12,7 +12,13 @@
         <ul class="nav d-flex justify-content-end">
             @if (Auth::check())
                 <li class="nav-item">
-                    <a href="{{ route('account.profile') }}" class="nav-link">Profile</a>
+                    <a href="{{ route('account.schedule') }}" class="nav-link">Schedule</a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ route('courses.index') }}" class="nav-link">Course list</a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ route('courses.create') }}" class="nav-link">Upload course</a>
                 </li>
                 <li>
                     <form method="post" action="{{ route('account.logout') }}">

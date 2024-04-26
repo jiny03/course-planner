@@ -17,10 +17,10 @@ class AccountController extends Controller
     {
         // automatically redirect to profile page if user tried access /login page after the user logged in
         if (Auth::check()) {
-            return redirect()->route('account.profile');
+            return redirect()->route('account.schedule');
         }
         else {
-            return view('account/login');
+            return view('account.login');
         }
     }
 
@@ -33,11 +33,18 @@ class AccountController extends Controller
 
         if ($loginWasSuccessful) {
             return redirect()
-                ->route('account.profile')
+                ->route('account.schedule')
                 ->with('success', "Succesfully logged in account as '{$request->input('username')}'.");
         }
         else {
             return redirect()->route('login')->with('error', 'Invalid credentials.');
         }
+    }
+
+    public function schedule()
+    {
+        return view('account.schedule', [
+            'user' => Auth::user(),
+        ]);
     }
 }

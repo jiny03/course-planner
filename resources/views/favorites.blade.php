@@ -1,3 +1,5 @@
-<div>
-    <!-- Simplicity is an acquired taste. - Katharine Gerould -->
-</div>
+@extends('layouts/layout')
+@section('title', 'Favorites')
+
+@section('main')
+@endsection

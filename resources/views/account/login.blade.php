@@ -1,16 +1,15 @@
-@extends('registration/layout')
+@extends('layouts/layout')
 
 @section('title', 'Login')
 
 @section('main')
-
 
     @if (session('success'))
         <div class="alert alert-success" role="alert">
             {{ session('success') }}
         </div>
     @endif
-    
+
     <h1>Login</h1>
 
     <form method="post" action="{{ route('account.login') }}">

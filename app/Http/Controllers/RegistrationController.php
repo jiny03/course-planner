@@ -17,9 +17,9 @@ class RegistrationController extends Controller
     public function register(Request $request)
     {
         $validatedData = $request->validate([
-            'name' => 'required|string|max:50',
+            'name' => 'required|string|max:100',
             'email' => 'required|email|unique:users,email',
-            'username' => 'required|string|min:3|max:50|unique:users,username',
+            'username' => 'required|string|min:3|max:20|unique:users,username',
             'password' => 'required|string|min:3'
         ]);
 
