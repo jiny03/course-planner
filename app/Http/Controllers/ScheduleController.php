@@ -39,7 +39,8 @@ class ScheduleController extends Controller
                 ->first();
 
             if (UserCourse::find($existingCourse)) {
-                return back()->with('error', 'This course already exists in your current semester.');
+                return back()
+                    ->with('error', "This course already exists in your current {$defaultSemester->title} semester.");
             }
 
             $newUserCourse = new UserCourse([
@@ -54,16 +55,10 @@ class ScheduleController extends Controller
 
 
 
-            if ($defaultSemester->userCourses()->find($course->course_number)) {
-                return back()
-                    ->with('error', 'This course already exists in your current semester.');
-            }
-
-            else {
-                $newUserCourse->save();
+            $newUserCourse->save();
                 return back()
                     ->with('success', "Course {$course->course_number} succesfully added to {$defaultSemester->title} semester.");
-            }
+
 
         }
     }
@@ -111,7 +106,7 @@ class ScheduleController extends Controller
         }
     }
 
-    public function setDefault(Semester $semester) {
+    public function setDefaultSemester(Semester $semester) {
         $user = Auth::user();
         $user->default_semester_id = $semester->id;
         $user->save();
@@ -121,7 +116,7 @@ class ScheduleController extends Controller
 
     }
 
-    public function delete(Semester $semester) {
+    public function deleteSemester(Semester $semester) {
         $user = Auth::user();
         $title = $semester->title;
         if ($semester->id == $user->default_semester_id) {
@@ -135,5 +130,15 @@ class ScheduleController extends Controller
                 ->back()
                 ->with('success', "Succesfully deleted {$title} semester.");
         }
+    }
+
+    public function deleteCourse(UserCourse $userCourse) {
+        $user = Auth::user();
+        $title = $userCourse->title;
+        $defaultSemester = Semester::find($user->default_semester_id);
+        $userCourse->delete();
+        return redirect()
+            ->back()
+            ->with('success', "Succesfully deleted {$title} course from {$defaultSemester->title} semester.");
     }
 }

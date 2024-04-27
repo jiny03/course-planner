@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Auth;
+use App\Models\Semester;
 
 class AccountController extends Controller
 {
@@ -43,8 +44,27 @@ class AccountController extends Controller
 
     public function schedule()
     {
+        $user = Auth::user();
+        $defaultSemester = Semester::find($user->default_semester_id);
+        if(!$defaultSemester) {
+            return view('account.schedule', [
+                'defaultSemester' => null,
+                'courses' => null,
+            ]);
+        }
+
+        $courses = $defaultSemester->userCourses()->get();
+
+        if ($courses->count() === 0) {
+            return view('account.schedule', [
+                'defaultSemester' => $defaultSemester,
+                'courses' => $courses
+            ])->with('error', 'No courses scheduled for this semester. Add some courses.');
+        }
         return view('account.schedule', [
             'user' => Auth::user(),
+            'defaultSemester' => $defaultSemester,
+            'courses' => $courses,
         ]);
     }
 

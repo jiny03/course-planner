@@ -15,11 +15,12 @@
         @if ($semesters->isEmpty())
             <div class="alert alert-info">No semesters added yet.</div>
         @else
-            <table class="table table-striped table-hover">
+            <table class="table table-striped">
                 <thead>
                     <tr>
                         <th>Title</th>
-                        <th>Actions</th>
+                        <th>Current schedule</th>
+                        <th>Delete</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -28,18 +29,22 @@
                         <td>{{ $semester->title }}</td>
                         <td>
                             @if ($semester->id != Auth::user()->default_semester_id)
-                                <form action="{{ route('schedule.setDefaultSemester', $semester) }}" method="POST" style="display: inline;">
+                                <form action="{{ route('schedule.setDefaultSemester', $semester) }}" method="POST">
                                     @csrf
                                     <button type="submit" class="btn btn-primary btn-sm">Set as current schedule</button>
                                 </form>
-
-                                <form action="{{ route('schedule.deleteSemester', $semester) }}" method="POST" style="display: inline;">
+                            @else
+                                <span class="badge bg-success">Current</span>
+                            @endif
+                        </td>
+                        <td>
+                            @if ($semester->id != Auth::user()->default_semester_id)
+                                <form action="{{ route('schedule.deleteSemester', $semester) }}" method="POST">
                                     @csrf
-                                    <button type="submit" class="btn btn-danger btn-sm"
-                                    onclick="return confirm('Are you sure you want to delete this semester?')">Delete</button>
+                                    <button type="submit" class="btn btn-danger btn-sm">Delete</button>
                                 </form>
                             @else
-                                <span class="badge bg-success">Default</span>
+                                <span class="badge bg-warning">Disabled</span>
                             @endif
                         </td>
                     </tr>

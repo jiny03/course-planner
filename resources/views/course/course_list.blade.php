@@ -8,19 +8,18 @@
             {{ session('success') }}
         </div>
     @endif
-
     <h1>Course lists</h1>
     @if ($courses->count() === 0)
-        <p>There aren't any courses uploaded on the website. You can upload one through
+        <div class="alert alert-info">
+            There aren't any courses uploaded on the website. You can upload one through
             <a href="{{ route('courses.create') }}">Upload course page</a>
-        </p>
-
+        </div>
     @else
         <table class="table table-striped">
             <thead>
                 <tr>
-                    <th>Course name</th>
                     <th>Course ID</th>
+                    <th>Course name</th>
                     <th>Instructor name</th>
                     <th>Units</th>
                     <th>Add</th>
@@ -29,14 +28,14 @@
             <tbody>
                 @foreach ($courses as $course)
                     <tr>
-                        <td>{{ $course->title }}</td>
                         <td>{{ $course->course_number }}</td>
+                        <td>{{ $course->title }}</td>
                         <td>{{ $course->instructor }}</td>
                         <td>{{ $course->units }}</td>
                         <td>
                             <form action="{{ route('schedule.addCourse', $course->id) }}" method="POST">
                                 @csrf
-                                <button type="submit" class="btn btn-primary">Add to Current Semester</button>
+                                <button type="submit" class="btn btn-primary">Add</button>
                             </form>
                         </td>
                     </tr>

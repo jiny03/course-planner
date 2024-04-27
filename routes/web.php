@@ -28,8 +28,11 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/add_semester', [ScheduleController::class, 'addSemester'])->name('schedule.addSemester');
     Route::post('/store_semester', [ScheduleController::class, 'storeSemester'])->name('schedule.storeSemester');
 
-    Route::post('/semesters/{semester}/set-default', [ScheduleController::class, 'setDefault'])->name('schedule.setDefaultSemester');
-    Route::post('/semesters/{semester}/delete', [ScheduleController::class, 'delete'])->name('schedule.deleteSemester');
+    Route::post('/semesters/{semester}/set-default', [ScheduleController::class, 'setDefaultSemester'])->name('schedule.setDefaultSemester');
+    Route::post('/semesters/{semester}/delete', [ScheduleController::class, 'deleteSemester'])->name('schedule.deleteSemester');
+
+
+    Route::post('/userCourses/{userCourse}/delete', [ScheduleController::class, 'deleteCourse'])->name('schedule.deleteCourse');
 
 });
 
