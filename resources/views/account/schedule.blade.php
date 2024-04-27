@@ -29,8 +29,8 @@
                 <table class="table table-striped">
                     <thead>
                         <tr>
-                            <th>Course name</th>
                             <th>Course ID</th>
+                            <th>Course name</th>
                             <th>Instructor name</th>
                             <th>Units</th>
                             <th>Delete</th>
@@ -39,8 +39,8 @@
                     <tbody>
                         @foreach ($courses as $course)
                         <tr>
-                            <td>{{ $course->title }}</td>
                             <td>{{ $course->course_number }}</td>
+                            <td>{{ $course->title }}</td>
                             <td>{{ $course->instructor }}</td>
                             <td>{{ $course->units }}</td>
                             <td>

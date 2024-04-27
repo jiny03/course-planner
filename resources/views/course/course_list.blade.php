@@ -3,6 +3,12 @@
 @section('title', 'Course lists')
 
 @section('main')
+
+@if (session('error'))
+<div class="alert alert-danger mt-3" role="alert">
+    {{ session('error') }}
+</div>
+@endif
     @if (session('success'))
         <div class="alert alert-success" role="alert">
             {{ session('success') }}
@@ -22,7 +28,7 @@
                     <th>Course name</th>
                     <th>Instructor name</th>
                     <th>Units</th>
-                    <th>Add</th>
+                    <th>Add to current semester</th>
                 </tr>
                 </thead>
             <tbody>

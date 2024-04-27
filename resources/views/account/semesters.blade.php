@@ -26,7 +26,9 @@
                 <tbody>
                     @foreach ($semesters as $semester)
                     <tr>
-                        <td>{{ $semester->title }}</td>
+                        <td>
+                            <a href="{{ route('schedule.viewSemester', $semester) }}">{{ $semester->title }}</a>
+                        </td>
                         <td>
                             @if ($semester->id != Auth::user()->default_semester_id)
                                 <form action="{{ route('schedule.setDefaultSemester', $semester) }}" method="POST">
@@ -44,7 +46,7 @@
                                     <button type="submit" class="btn btn-danger btn-sm">Delete</button>
                                 </form>
                             @else
-                                <span class="badge bg-warning">Disabled</span>
+                                <span class="badge bg-warning">Cannot delete current semester</span>
                             @endif
                         </td>
                     </tr>

@@ -21,12 +21,12 @@
                 </select>
             </div>
             <div class="mb-3">
-                <label for="semester" class="form-label">Semester</label>
-                <select name="semester" id="semester" class="form-select">
-                    <option value="">-- Select Semester --</option>
-                    <option value="fall">Fall</option>
-                    <option value="spring">Spring</option>
-                    <option value="summer">Summer</option>
+                <label for="term" class="form-label">Term</label>
+                <select name="term" id="term" class="form-select">
+                    <option value="">-- Select Term --</option>
+                    <option value="1">Fall</option>
+                    <option value="2">Spring</option>
+                    <option value="3">Summer</option>
                 </select>
             </div>
             <button type="submit" class="btn btn-primary">Add Semester</button>

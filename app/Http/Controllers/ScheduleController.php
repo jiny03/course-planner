@@ -16,12 +16,21 @@ class ScheduleController extends Controller
     public function semesters()
     {
         return view('account.semesters', [
-            'semesters' => Auth::user()->semesters()->get(),
+            'semesters' => Auth::user()->semesters()
+                ->orderBy('year', 'asc')
+                ->orderBy('semester', 'asc')
+                ->get(),
         ]);
     }
 
     public function addCourse($courseId) {
+        if (!Auth::check()) {
+            return redirect()
+                ->route('courses.index');
+        }
+
         $user = Auth::user();
+
         if (!$user->default_semester_id) {
             return back()->with('error', 'No semester exists in schedule. Add a semester first.');
         }
@@ -70,8 +79,27 @@ class ScheduleController extends Controller
 
     public function storeSemester(Request $request)
     {
+        $request->validate([
+            'year' => 'required|integer|between:2024,2030',
+            'term' => 'required|between:1,3',
+        ]);
+
         $user = Auth::user();
-        $title = ucfirst(strtolower($request->semester)) . ' ' . $request->year;
+        if($request->term == "1") {
+            $title = "Fall" . " " . $request->year;
+        }
+        else if($request->term == "2") {
+            $title = "Spring" . " " . $request->year;
+        }
+        else if($request->term == "3") {
+            $title = "Summer" . " " . $request->year;
+        }
+        else {
+            return redirect()
+            ->route('schedule.addSemester')
+            ->with('error', "Invalid semester.");
+        }
+
         $user_id = $user->id;
 
         $duplicateSemester = Semester::where('title', $title)
@@ -80,18 +108,16 @@ class ScheduleController extends Controller
 
         if($duplicateSemester) {
             return redirect()
-            ->route('schedule.addSemester')
-            ->with('error', "{$title} semester already exists.");
+                ->route('schedule.addSemester')
+                ->with('error', "{$title} semester already exists.");
         }
         else {
-            $request->validate([
-                'year' => 'required|integer|between:2024,2030',
-                'semester' => 'required|in:fall,spring,summer',
-            ]);
-
             $semester = new Semester();
             $semester->title = $title;
             $semester->user_id = $user_id;
+            $semester->year = $request->year;
+            $semester->term = $request->term;
+
             if($semester->save()) {
                 // if it is the first semester being added to the user, set it as the user's default semester
                 if ($user->semesters()->count() === 1) {
@@ -104,6 +130,10 @@ class ScheduleController extends Controller
                     ->with('success', "{$semester->title} semester was added successfully");
             }
         }
+    }
+
+    public function viewSemester(Semester $semester) {
+        $nonDefaultSemester = Semester::find($semester->id);
     }
 
     public function setDefaultSemester(Semester $semester) {
