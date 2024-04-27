@@ -19,7 +19,7 @@ class ScheduleController extends Controller
     }
 
     public function addCourse($courseId) {
-
+            
     }
 
     public function addSemester()
@@ -29,7 +29,6 @@ class ScheduleController extends Controller
 
     public function storeSemester(Request $request)
     {
-
         $user = Auth::user();
         $title = ucfirst(strtolower($request->semester)) . ' ' . $request->year;
         $user_id = $user->id;
@@ -37,6 +36,7 @@ class ScheduleController extends Controller
         $duplicateSemester = Semester::where('title', $title)
             ->where('user_id', $user_id)
             ->first();
+
         if($duplicateSemester) {
             return redirect()
             ->route('schedule.addSemester')
@@ -62,6 +62,37 @@ class ScheduleController extends Controller
                     ->route('schedule.semesters')
                     ->with('success', "{$semester->title} semester was added successfully");
             }
+        }
+    }
+
+    public function setDefault(Semester $semester) {
+        $user = Auth::user();
+        $user->default_semester_id = $semester->id;
+        $user->save();
+        return redirect()
+            ->back()
+            ->with('success', "Switched current semester to {$semester->title}.");
+
+    }
+
+    public function delete(Semester $semester) {
+        $user = Auth::user();
+        $title = $semester->title;
+        if ($semester->id == $user->default_semester_id) {
+            return redirect()
+                ->back()
+                ->with('error', "Cannot delete the default semester.");
+        }
+        else {
+            if ($semester->courses()->count() > 0) {
+                foreach ($semester->courses as $course) {
+                    $course->delete();
+                }
+            }
+            $semester->delete();
+            return redirect()
+                ->back()
+                ->with('success', "Succesfully deleted {$title} semester.");
         }
     }
 }

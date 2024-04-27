@@ -27,5 +27,9 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/semesters', [ScheduleController::class, 'semesters'])->name('schedule.semesters');
     Route::get('/add_semester', [ScheduleController::class, 'addSemester'])->name('schedule.addSemester');
     Route::post('/store_semester', [ScheduleController::class, 'storeSemester'])->name('schedule.storeSemester');
+
+    Route::post('/semesters/{semester}/set-default', [ScheduleController::class, 'setDefault'])->name('schedule.setDefaultSemester');
+    Route::post('/semesters/{semester}/delete', [ScheduleController::class, 'delete'])->name('schedule.deleteSemester');
+
 });
 
