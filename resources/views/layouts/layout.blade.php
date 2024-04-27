@@ -15,6 +15,9 @@
                     <a href="{{ route('account.schedule') }}" class="nav-link">Schedule</a>
                 </li>
                 <li class="nav-item">
+                    <a href="{{ route('schedule.semesters') }}" class="nav-link">Semesters</a>
+                </li>
+                <li class="nav-item">
                     <a href="{{ route('courses.index') }}" class="nav-link">Course list</a>
                 </li>
                 <li class="nav-item">

@@ -47,4 +47,5 @@ class AccountController extends Controller
             'user' => Auth::user(),
         ]);
     }
+
 }
