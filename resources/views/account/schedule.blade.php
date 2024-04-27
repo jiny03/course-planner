@@ -17,7 +17,7 @@
             <a href="{{ route('schedule.semesters') }}">Semesters Page</a>
         </div>
     @else
-        <h1>Schedule for {{ $defaultSemester->title }} semester</h1>
+        <h1>Schedule of {{ $defaultSemester->title }} semester</h1>
 
         <div>
             @if ($courses->count() === 0)

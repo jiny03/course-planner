@@ -17,8 +17,8 @@ class ScheduleController extends Controller
     {
         return view('account.semesters', [
             'semesters' => Auth::user()->semesters()
-                ->orderBy('year', 'asc')
-                ->orderBy('semester', 'asc')
+                ->orderBy('year')
+                ->orderBy('semester')
                 ->get(),
         ]);
     }
@@ -133,7 +133,17 @@ class ScheduleController extends Controller
     }
 
     public function viewSemester(Semester $semester) {
-        $nonDefaultSemester = Semester::find($semester->id);
+        $courses = $semester->userCourses()->get();
+        if(!$courses) {
+            return view('account/view_semester', [
+                'semester' => $semester,
+                'courses' => null
+            ]);
+        }
+        return view('account/view_semester', [
+            'semester' => $semester,
+            'courses' => $courses
+        ]);
     }
 
     public function setDefaultSemester(Semester $semester) {

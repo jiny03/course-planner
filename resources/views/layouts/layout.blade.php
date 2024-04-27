@@ -9,12 +9,7 @@
 </head>
 <body>
     <div class="container mt-3">
-        @if (session('error'))
-            <div class="alert alert-danger mt-3" role="alert">
-                {{ session('error') }}
-            </div>
-        @endif
-        
+
         <ul class="nav d-flex justify-content-end">
             @if (Auth::check())
                 <li class="nav-item">
@@ -47,7 +42,14 @@
                 </li>
             @endif
         </ul>
+
+        @if (session('error'))
+            <div class="alert alert-danger mt-3" role="alert">
+                {{ session('error') }}
+            </div>
+        @endif
         @yield('main')
     </div>
+
 </body>
 </html>
