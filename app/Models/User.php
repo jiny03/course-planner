@@ -46,10 +46,6 @@ class User extends Authenticatable
         ];
     }
 
-    public function favorites()
-    {
-        return $this->belongsToMany(User::class, 'favorites');
-    }
 
     public function semesters()
     {

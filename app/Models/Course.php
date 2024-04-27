@@ -12,13 +12,13 @@ class Course extends Model
     protected $primaryKey = 'id';
     protected $fillable = ['title', 'units', 'description', 'instructor', 'course_number'];
 
-    // public function semester()
-    // {
-    //     return $this->belongsTo(Semester::class);
-    // }
+    public function semester()
+    {
+        return $this->belongsTo(Semester::class);
+    }
 
     public function favorites()
     {
-        return $this->belongsToMany(User::class, 'favorites');
+        return $this->belongsTo(User::class, 'favorites');
     }
 }

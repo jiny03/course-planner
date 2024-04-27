@@ -5,20 +5,18 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Semester extends Model
+class UserCourse extends Model
 {
     use HasFactory;
-
     protected $primaryKey = 'id';
-    protected $fillable = ['title', 'start_date', 'end_date', 'user_id'];
-
+    protected $fillable = ['title', 'units', 'instructor', 'course_number', 'user_id', 'user_semester_id', 'is_favorited'];
     public function user()
     {
         return $this->belongsTo(User::class);
     }
 
-    public function courses()
+    public function semester()
     {
-        return $this->hasMany(Course::class);
+        return $this->belongsTo(Semester::class, 'user_semester_id');
     }
 }

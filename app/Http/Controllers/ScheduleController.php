@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Semester;
+use App\Models\Course;
 use Auth;
 
 use function PHPUnit\Framework\isNull;
@@ -19,7 +20,24 @@ class ScheduleController extends Controller
     }
 
     public function addCourse($courseId) {
-            
+        $user = Auth::user();
+        if (!$user->default_semester_id) {
+            return back()->with('error', 'No semester exists in schedule. Add a semester first.');
+        }
+        else {
+            $defaultSemester = Semester::find($user->default_semester_id);
+            $course = Course::find($courseId);
+            if ($defaultSemester->courses()->find($courseId)) {
+                return back()
+                    ->with('error', 'This course already exists in your current semester.');
+            }
+            else {
+                $defaultSemester->courses()->attach($courseId);
+                return back()
+                    ->with('success', "Course {$course->course_number} succesfully added to {$defaultSemester->title} semester.");
+            }
+
+        }
     }
 
     public function addSemester()
@@ -84,11 +102,6 @@ class ScheduleController extends Controller
                 ->with('error', "Cannot delete the default semester.");
         }
         else {
-            if ($semester->courses()->count() > 0) {
-                foreach ($semester->courses as $course) {
-                    $course->delete();
-                }
-            }
             $semester->delete();
             return redirect()
                 ->back()

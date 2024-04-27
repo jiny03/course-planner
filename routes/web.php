@@ -23,7 +23,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/create_course', [CourseController::class, 'create'])->name('courses.create');
     Route::post('/create_course', [CourseController::class, 'store'])->name('courses.store');
 
-    Route::post('/schedule/addCourse', [ScheduleController::class, 'addCourse'])->name('schedule.addCourse');
+    Route::post('/schedule/addCourse/{courseId}', [ScheduleController::class, 'addCourse'])->name('schedule.addCourse');
     Route::get('/semesters', [ScheduleController::class, 'semesters'])->name('schedule.semesters');
     Route::get('/add_semester', [ScheduleController::class, 'addSemester'])->name('schedule.addSemester');
     Route::post('/store_semester', [ScheduleController::class, 'storeSemester'])->name('schedule.storeSemester');
