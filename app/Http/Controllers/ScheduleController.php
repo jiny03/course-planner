@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Semester;
 use App\Models\Course;
+use App\Models\UserCourse;
 use Auth;
 
 use function PHPUnit\Framework\isNull;
@@ -24,15 +25,42 @@ class ScheduleController extends Controller
         if (!$user->default_semester_id) {
             return back()->with('error', 'No semester exists in schedule. Add a semester first.');
         }
+
         else {
             $defaultSemester = Semester::find($user->default_semester_id);
             $course = Course::find($courseId);
-            if ($defaultSemester->courses()->find($courseId)) {
+            if (!$course) {
+                return redirect()->back()->with('error', 'Course not found.');
+            }
+
+            $existingCourse = UserCourse::where('user_semester_id', $defaultSemester->id)
+                ->where('course_number', $course->course_number)
+                ->where('user_id', $user->id)
+                ->first();
+
+            if (UserCourse::find($existingCourse)) {
+                return back()->with('error', 'This course already exists in your current semester.');
+            }
+
+            $newUserCourse = new UserCourse([
+            'title' => $course->title,
+            'units' => $course->units,
+            'instructor' => $course->instructor,
+            'course_number' => $course->course_number,
+            'user_id' => $user->id,
+            'user_semester_id' => $defaultSemester->id,
+            'is_favorited' => false
+            ]);
+
+
+
+            if ($defaultSemester->userCourses()->find($course->course_number)) {
                 return back()
                     ->with('error', 'This course already exists in your current semester.');
             }
+
             else {
-                $defaultSemester->courses()->attach($courseId);
+                $newUserCourse->save();
                 return back()
                     ->with('success', "Course {$course->course_number} succesfully added to {$defaultSemester->title} semester.");
             }
