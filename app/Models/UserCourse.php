@@ -9,7 +9,7 @@ class UserCourse extends Model
 {
     use HasFactory;
     protected $primaryKey = 'id';
-    protected $fillable = ['title', 'units', 'instructor', 'course_number', 'user_id', 'user_semester_id', 'is_favorited'];
+    protected $fillable = ['title', 'units', 'instructor', 'course_id', 'course_number', 'user_id', 'user_semester_id', 'is_favorited'];
     public function user()
     {
         return $this->belongsTo(User::class);
@@ -18,5 +18,10 @@ class UserCourse extends Model
     public function semester()
     {
         return $this->belongsTo(Semester::class, 'user_semester_id');
+    }
+
+    public function favorites()
+    {
+        return $this->hasMany(Favorite::class);
     }
 }

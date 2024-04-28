@@ -63,7 +63,8 @@
                 <tr>
                     <td>{{ $comment->username }}</td>
                     <td>{{ $comment->body }}</td>
-                    <td><?php echo date_format($comment->created_at, 'n/j/Y')?> at
+                    <td>
+                        <?php echo date_format($comment->created_at, 'n/j/Y')?> at
                         <?php echo date_format($comment->created_at, 'g:i A') ?></td>
                     <td>
                         @if (auth()->id() === $comment->user_id)

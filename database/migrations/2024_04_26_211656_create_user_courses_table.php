@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('title');
             $table->integer('units');
             $table->string('instructor');
+            $table->string('course_id');
             $table->string('course_number');
             $table->integer('user_id');
             $table->integer('user_semester_id');

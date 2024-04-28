@@ -20,12 +20,15 @@
         <h1>Schedule of {{ $defaultSemester->title }} semester</h1>
 
         <div>
-            @if ($courses->count() === 0)
+            @if ($userCourses->count() === 0)
                 <div class="alert alert-info">
                     There aren't any courses scheduled for current semester.
                     Browse new coures at <a href="{{ route('courses.index') }}">Course lists</a>
                 </div>
             @else
+                <h2>
+                    Total units: {{ $userCourses->sum('units') }}
+                </h2>
                 <table class="table table-striped">
                     <thead>
                         <tr>
@@ -35,24 +38,31 @@
                             <th>Units</th>
                             <th>Delete</th>
                             <th>View Comments</th>
+                            <th>Add to favorites</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($courses as $course)
+                        @foreach ($userCourses as $userCourse)
                         <tr>
-                            <td>{{ $course->course_number }}</td>
-                            <td>{{ $course->title }}</td>
-                            <td>{{ $course->instructor }}</td>
-                            <td>{{ $course->units }}</td>
+                            <td>{{ $userCourse->course_number }}</td>
+                            <td>{{ $userCourse->title }}</td>
+                            <td>{{ $userCourse->instructor }}</td>
+                            <td>{{ $userCourse->units }}</td>
                             <td>
-                                <form action="{{ route('schedule.deleteCourse', $course) }}" method="POST">
+                                <form action="{{ route('schedule.deleteCourse', $userCourse) }}" method="POST">
                                     @csrf
                                     <button type="submit" class="btn btn-danger btn-sm">Remove</button>
                                 </form>
                             </td>
                             <td>
-                                <form action="{{ route('courses.viewComments', $course->id) }}" method="GET">
+                                <form action="{{ route('courses.viewComments', $userCourse->course_id) }}" method="GET">
                                     <button type="submit" class="btn btn-info">Comments</button>
+                                </form>
+                            </td>
+                            <td>
+                                <form action="{{ route('account.addFavorites', $userCourse->course_id) }}" method="POST">
+                                    @csrf
+                                    <button type="submit" class="btn btn-success">Favorite</button>
                                 </form>
                             </td>
                         </tr>

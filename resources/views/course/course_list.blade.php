@@ -21,11 +21,12 @@
             <thead>
                 <tr>
                     <th>Course ID</th>
-                    <th>Course name</th>
-                    <th>Instructor name</th>
+                    <th>Course Name</th>
+                    <th>Instructor Name</th>
                     <th>Units</th>
-                    <th>Add to current semester</th>
+                    <th>Add to Current Semester</th>
                     <th>View Comments</th>
+                    <th>Add to Favorites</th>
                 </tr>
                 </thead>
             <tbody>
@@ -44,6 +45,12 @@
                         <td>
                             <form action="{{ route('courses.viewComments', $course->id) }}" method="GET">
                                 <button type="submit" class="btn btn-info">Comments</button>
+                            </form>
+                        </td>
+                        <td>
+                            <form action="{{ route('account.addFavorites', $course->id) }}" method="POST">
+                                @csrf
+                                <button type="submit" class="btn btn-success">Favorite</button>
                             </form>
                         </td>
                     </tr>

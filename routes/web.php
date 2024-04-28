@@ -27,19 +27,20 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/schedule/addCourse/{courseId}', [ScheduleController::class, 'addCourse'])->name('schedule.addCourse');
     Route::post('/userCourses/{userCourse}/delete', [ScheduleController::class, 'deleteCourse'])->name('schedule.deleteCourse');
 
-    // comments
+    // course comments
     Route::get('/courses/view_comments/{userCourse}', [CourseController::class, 'viewComments'])->name('courses.viewComments');
     Route::post('/courses/add_comment/{userCourse}', [CourseController::class, 'addComment'])->name('courses.addComment');
     Route::get('/comments/edit/{comment}', [CourseController::class, 'editComment'])->name('comments.edit');
     Route::post('/comments/update/{comment}', [CourseController::class, 'updateComment'])->name('comments.update');
     Route::post('/comments/delete/{comment}', [CourseController::class, 'deleteComment'])->name('comments.delete');
 
-
-    // schedule
+    // account schedule (current semester) and favorites
     Route::get('/schedule', [AccountController::class, 'schedule'])->name('account.schedule');
     Route::get('/favorites', [AccountController::class, 'favorites'])->name('account.favorites');
+    Route::post('/add_favorites/{courseId}', [AccountController::class, 'addFavorites'])->name('account.addFavorites');
+    Route::post('/delete_favorites/{courseId}', [AccountController::class, 'deleteFavorite'])->name('account.deleteFavorite');
 
-    // semesters
+    // semesters and semesters schedule
     Route::get('/schedule/viewSemester/{semester}', [ScheduleController::class, 'viewSemester'])->name('schedule.viewSemester');
     Route::get('/add_semester', [ScheduleController::class, 'addSemester'])->name('schedule.addSemester');
     Route::get('/semesters', [ScheduleController::class, 'semesters'])->name('schedule.semesters');

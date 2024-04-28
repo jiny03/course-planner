@@ -39,7 +39,9 @@ class ScheduleController extends Controller
             $defaultSemester = Semester::find($user->default_semester_id);
             $course = Course::find($courseId);
             if (!$course) {
-                return redirect()->back()->with('error', 'Course not found.');
+                return redirect()
+                    ->back()
+                    ->with('error', 'Course not found.');
             }
 
             $existingCourse = UserCourse::where('user_semester_id', $defaultSemester->id)
@@ -53,12 +55,13 @@ class ScheduleController extends Controller
             }
 
             $newUserCourse = new UserCourse([
-            'title' => $course->title,
-            'units' => $course->units,
-            'instructor' => $course->instructor,
-            'course_number' => $course->course_number,
-            'user_id' => $user->id,
-            'user_semester_id' => $defaultSemester->id,
+                'title' => $course->title,
+                'units' => $course->units,
+                'instructor' => $course->instructor,
+                'course_id' => $course->id,
+                'course_number' => $course->course_number,
+                'user_id' => $user->id,
+                'user_semester_id' => $defaultSemester->id,
             ]);
 
 
@@ -132,16 +135,16 @@ class ScheduleController extends Controller
     }
 
     public function viewSemester(Semester $semester) {
-        $courses = $semester->userCourses()->get();
-        if(!$courses) {
+        $userCourses = $semester->userCourses()->get();
+        if(!$userCourses) {
             return view('account/view_semester', [
                 'semester' => $semester,
-                'courses' => null
+                'userCourses' => null
             ]);
         }
         return view('account/view_semester', [
             'semester' => $semester,
-            'courses' => $courses
+            'userCourses' => $userCourses
         ]);
     }
 
@@ -164,6 +167,8 @@ class ScheduleController extends Controller
                 ->with('error', "Cannot delete the default semester.");
         }
         else {
+            // when deleting the semester, also delete all coursese in the semester
+            $semester->userCourses()->delete();
             $semester->delete();
             return redirect()
                 ->back()
