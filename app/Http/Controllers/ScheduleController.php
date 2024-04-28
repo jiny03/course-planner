@@ -59,7 +59,6 @@ class ScheduleController extends Controller
             'course_number' => $course->course_number,
             'user_id' => $user->id,
             'user_semester_id' => $defaultSemester->id,
-            'is_favorited' => false
             ]);
 
 

@@ -39,7 +39,7 @@ class CourseController extends Controller
         ]);
 
         $request->validate([
-            'title' => 'required|max:100|unique:courses,title',
+            'title' => 'required|min:3|max:100|unique:courses,title',
             'course_number' => 'required|min:2|max:10|unique:courses,course_number',
             'units' => 'required|integer|min:1|max:16',
             'instructor' => 'required|string|max:100'
@@ -115,7 +115,7 @@ class CourseController extends Controller
         }
 
         $request->validate([
-            'comment' => 'required|string'
+            'comment' => 'required|string|min:3'
         ]);
 
         $comment->body = $request['comment'];
@@ -123,5 +123,20 @@ class CourseController extends Controller
 
         return redirect()->route('courses.viewComments', $comment->course_id) // Assuming you have this route to go back to the course comments page
             ->with('success', 'Comment updated successfully.');
+    }
+
+    public function deleteComment($commentId) {
+        $user = Auth::user();
+        $comment = Comment::where('id', $commentId)
+            ->where('user_id', $user->id)->firstOrFail();
+
+        if($comment->user_id !== $user->id) {
+            return back()
+                ->with('error', 'You can only delete your comment.');
         }
+
+        $comment->delete();
+        return back()
+            ->with('success', 'Comment deleted successfully.');
+    }
 }

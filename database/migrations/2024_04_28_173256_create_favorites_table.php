@@ -11,16 +11,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('user_courses', function (Blueprint $table) {
+        Schema::create('favorites', function (Blueprint $table) {
             $table->id();
-            $table->string('title');
-            $table->integer('units');
-            $table->string('instructor');
-            $table->string('course_number');
             $table->integer('user_id');
-            $table->integer('user_semester_id');
+            $table->integer('course_id');
+            $table->string('title');
+            $table->string('course_number');
+            $table->string('instructor');
+            $table->integer('units');
             $table->timestamps();
-      });
+        });
     }
 
     /**
@@ -28,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('user_courses');
+        Schema::dropIfExists('favorites');
     }
 };

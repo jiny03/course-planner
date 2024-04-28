@@ -15,7 +15,7 @@
             <form method="POST" action="{{ route('courses.addComment', $course->id) }}">
                 @csrf
                 <label for="comment" class="form-label"></label>
-                <textarea class="form-control @if($errors->has('comment')) is-invalid @endif" id="comment" name="comment" rows="3" placeholder="Leave comment"></textarea>
+                <textarea class="form-control @if($errors->has('comment')) is-invalid @endif" id="comment" name="comment" rows="3" placeholder="Leave comment" value="{{ old('comment') }}"></textarea>
                     @if ($errors->has('comment'))
                         <div class="invalid-feedback">
                             {{ $errors->first('comment') }}
@@ -25,6 +25,11 @@
             </form>
         </div>
     @else
+        @if (session('success'))
+            <div class="alert alert-success" role="alert">
+                {{ session('success') }}
+            </div>
+        @endif
         <div class="mb-3">
             <form method="POST"  action="{{ route('courses.addComment', $course->id) }}">
                 @csrf
@@ -67,6 +72,9 @@
                                 @csrf
                                 <button type="submit" class="btn btn-sm btn-danger">Delete</button>
                             </form>
+                        @else
+                            <span class="badge bg-warning">Cannot modify</span>
+
                         @endif
                     </td>
                 </tr>
