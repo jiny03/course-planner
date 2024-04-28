@@ -17,8 +17,8 @@ class Course extends Model
         return $this->belongsTo(Semester::class);
     }
 
-    public function favorites()
+    public function comments()
     {
-        return $this->belongsTo(User::class, 'favorites');
+        return $this->hasMany(Comment::class)->orderBy('created_at', 'desc');
     }
 }

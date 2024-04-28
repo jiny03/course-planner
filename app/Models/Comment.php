@@ -8,4 +8,16 @@ use Illuminate\Database\Eloquent\Model;
 class Comment extends Model
 {
     use HasFactory;
+    protected $primaryKey = 'id';
+    protected $fillable = ['body', 'user_id', 'username', 'course_id'];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id', 'id');
+    }
+
+    public function course()
+    {
+        return $this->belongsTo(Course::class);
+    }
 }

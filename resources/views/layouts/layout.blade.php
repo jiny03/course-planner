@@ -19,6 +19,9 @@
                     <a href="{{ route('schedule.semesters') }}" class="nav-link">Semesters</a>
                 </li>
                 <li class="nav-item">
+                    <a href="{{ route('account.favorites') }}" class="nav-link">Favorites list</a>
+                </li>
+                <li class="nav-item">
                     <a href="{{ route('courses.index') }}" class="nav-link">Course list</a>
                 </li>
                 <li class="nav-item">

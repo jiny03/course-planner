@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->text('body');
             $table->integer('user_id');
+            $table->string('username');
             $table->integer('course_id');
             $table->timestamps();
         });

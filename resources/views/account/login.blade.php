@@ -16,7 +16,8 @@
         @csrf
         <div class="mb-3">
             <label class="form-label" for="username">Username</label>
-            <input type="username" id="username" name="username" class="form-control">
+            <input type="username" id="username" name="username" class="form-control" value="{{ old('username') }}">
+            
         </div>
         <div class="mb-3">
             <label class="form-label" for="password">Password</label>

@@ -11,7 +11,8 @@ class AccountController extends Controller
     public function logout()
     {
         Auth::logout();
-        return redirect()->route('login');
+        return redirect()
+            ->route('login');
     }
 
     public function loginForm()
@@ -65,6 +66,14 @@ class AccountController extends Controller
             'user' => Auth::user(),
             'defaultSemester' => $defaultSemester,
             'courses' => $courses,
+        ]);
+    }
+
+    public function favorites() {
+        $user = Auth::user();
+        
+        return view('account/favorites', [
+
         ]);
     }
 
